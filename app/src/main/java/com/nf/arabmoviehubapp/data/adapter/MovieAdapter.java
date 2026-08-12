@@ -31,67 +31,34 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     }
 
     public void setMovies(List<Movie> movies) {
-
         movieList.clear();
-
         if (movies != null) {
             movieList.addAll(movies);
         }
-
         notifyDataSetChanged();
     }
 
     @NonNull
     @Override
     public MovieViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_movie, parent, false);
-
         return new MovieViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MovieViewHolder holder, int position) {
-
         Movie movie = movieList.get(position);
-
-        // -----------------------------------------
-        // TITLE
-        // -----------------------------------------
-
         holder.movieTitle.setText(movie.getTitle());
 
-        // -----------------------------------------
-        // RATING
-        // -----------------------------------------
-
         holder.movieRating.setText(String.format("★ %.1f", movie.getVoteAverage()));
-
-        // -----------------------------------------
-        // RELEASE DATE
-        // -----------------------------------------
-
         String releaseDate = movie.getReleaseDate();
 
         if (releaseDate != null && releaseDate.length() >= 4) {
-
             holder.movieInfo.setText(releaseDate.substring(0, 4) + "  •  Movie");
-
         } else {
-
             holder.movieInfo.setText("Movie");
         }
-
-        // -----------------------------------------
-        // LOCAL DRAWABLE POSTER
-        // -----------------------------------------
-
         loadPoster(movie, holder.moviePoster);
-
-        // -----------------------------------------
-        // CLICK
-        // -----------------------------------------
-
         holder.itemView.setOnClickListener(v -> {
 
             if (listener != null) {
@@ -106,53 +73,23 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         return movieList.size();
     }
 
-    // =========================================================
-    // LOAD LOCAL DRAWABLE IMAGE
-    // =========================================================
-
     private void loadPoster(Movie movie, ImageView imageView) {
 
         String posterName = movie.getPosterPath();
-
         if (posterName == null || posterName.trim().isEmpty()) {
-
             imageView.setImageResource(R.drawable.placeholder_movie);
-
             return;
         }
-
-        /*
-         * Example:
-         *
-         * "awarapan2"
-         *      ↓
-         * res/drawable/awarapan2.png
-         *
-         * "bhootbangla"
-         *      ↓
-         * res/drawable/bhootbangla.png
-         */
-
         int resourceId = imageView.getContext().getResources().getIdentifier(posterName, "drawable", imageView.getContext().getPackageName());
-
         if (resourceId != 0) {
-
             Glide.with(imageView.getContext()).load(resourceId).placeholder(R.drawable.placeholder_movie).error(R.drawable.placeholder_movie).into(imageView);
-
         } else {
-
             imageView.setImageResource(R.drawable.placeholder_movie);
         }
     }
 
-    // =========================================================
-    // VIEW HOLDER
-    // =========================================================
-
     static class MovieViewHolder extends RecyclerView.ViewHolder {
-
         ImageView moviePoster;
-
         TextView movieRating;
         TextView movieTitle;
         TextView movieInfo;
@@ -160,13 +97,9 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         public MovieViewHolder(@NonNull View itemView) {
 
             super(itemView);
-
             moviePoster = itemView.findViewById(R.id.moviePoster);
-
             movieRating = itemView.findViewById(R.id.movieRating);
-
             movieTitle = itemView.findViewById(R.id.movieTitle);
-
             movieInfo = itemView.findViewById(R.id.movieInfo);
         }
     }

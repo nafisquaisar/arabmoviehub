@@ -12,4 +12,33 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <LinearLayout
+        android:id="@+id/fallbackUI"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#101010"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="🔒 Content Protected"
+            android:textColor="#FFFFFF"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:gravity="center"
+            android:text="Screen recording is not allowed while this content is open."
+            android:textColor="#BBBBBB"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
 </FrameLayout>

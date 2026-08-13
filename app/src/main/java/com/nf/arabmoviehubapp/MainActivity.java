@@ -40,20 +40,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // TASK: Apply FLAG_SECURE
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
 
         setContentView(R.layout.activity_main);
 
         detector = new EmulatorDetector(this);
         windowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
-
         webViewContainer = findViewById(R.id.webViewContainer);
         recordingFallbackUI = findViewById(R.id.recordingFallbackUI);
         mainProgressBar = findViewById(R.id.mainProgressBar);
 
         handleIncomingIntent(getIntent());
-
         performEnvironmentCheck();
     }
 
@@ -62,8 +59,6 @@ public class MainActivity extends AppCompatActivity {
         super.onNewIntent(intent);
         setIntent(intent);
         handleIncomingIntent(intent);
-
-        // Re-evaluate environment and URL
         performEnvironmentCheck();
     }
 
@@ -72,7 +67,6 @@ public class MainActivity extends AppCompatActivity {
 
         Uri data = intent.getData();
         if (data == null) return;
-
 
         String url = data.getQueryParameter("url");
         if (url != null) {
@@ -90,7 +84,6 @@ public class MainActivity extends AppCompatActivity {
         boolean recordingDetectionSupported = Build.VERSION.SDK_INT >= 35;
 
         if (recordingDetectionSupported && windowManager != null) {
-            // Add a temporary callback just to get the current state
             Consumer<Integer> tempCallback = state -> {};
             int state = windowManager.addScreenRecordingCallback(getMainExecutor(), tempCallback);
             isInitiallyRecording = (state == WindowManager.SCREEN_RECORDING_STATE_VISIBLE);
@@ -104,7 +97,6 @@ public class MainActivity extends AppCompatActivity {
         if (canOpenWebView) {
             setupWebView(savedUrl);
         } else {
-            // Hide progress and route to MovieList
             mainProgressBar.setVisibility(View.GONE);
             if (webView != null) {
                 webViewContainer.setVisibility(View.GONE);
@@ -128,7 +120,6 @@ public class MainActivity extends AppCompatActivity {
 
             webViewContainer.addView(webView);
             webManagerView = new WebManagerView(this, webView);
-
             setupRecordingDetection();
         }
 

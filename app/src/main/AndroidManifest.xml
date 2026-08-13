@@ -16,9 +16,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ArabMovieHubApp">
         <activity
-            android:name=".data.ui.WebViewActivity"
-            android:exported="false" />
-        <activity
             android:name=".data.ui.MovieListActivity"
             android:exported="false" />
         <activity

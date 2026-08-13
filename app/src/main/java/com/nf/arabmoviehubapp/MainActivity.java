@@ -8,21 +8,33 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
+import android.view.View;
 import android.view.WindowManager;
+import android.webkit.WebView;
+import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.nf.arabmoviehubapp.data.local.AppUrlStorage;
 import com.nf.arabmoviehubapp.data.ui.MovieListActivity;
 import com.nf.arabmoviehubapp.data.ui.WebViewActivity;
+import com.nf.arabmoviehubapp.data.web.WebManagerView;
 
 import java.util.function.Consumer;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String TAG = "ProctorTest";
-
     private EmulatorDetector detector;
+    private WindowManager windowManager;
+    private Consumer<Integer> recordingCallback;
+
+    private RelativeLayout webViewContainer;
+    private View recordingFallbackUI;
+    private View mainLoading;
+    private WebView webView;
+    private WebManagerView webManagerView;
+
+    private boolean isProtectedContentVisible = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,18 +80,9 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        Log.d(TAG, "========== PROCTOR CHECK ==========");
-        Log.d(TAG, "Android Version = " + Build.VERSION.RELEASE);
-        Log.d(TAG, "SDK_INT = " + Build.VERSION.SDK_INT);
-        Log.d(TAG, "Screen Recording Support = " + (recordingDetectionSupported ? "YES" : "NO (API < 35)"));
-        Log.d(TAG, "Screen Recording = " + (recordingDetectionSupported ? isInitiallyRecording : "UNSUPPORTED"));
-        Log.d(TAG, "Screen Mirroring = " + isMirrored);
-        Log.d(TAG, "Emulator = " + isEmulator);
-        Log.d(TAG, "Valid URL = " + hasValidUrl);
 
         boolean canOpenWebView = !isMirrored && !isInitiallyRecording && !isEmulator && hasValidUrl;
 
-        Log.d(TAG, "CAN OPEN WEBVIEW = " + canOpenWebView);
 
         if (canOpenWebView) {
             Intent intent = new Intent(this, WebViewActivity.class);
